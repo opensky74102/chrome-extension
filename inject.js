@@ -10,7 +10,7 @@ const Inject = {
       return;
     }
     this.createSearchBar();
-    this.paintingRows();
+    this.paintingRows(0);
   },
   createSearchBar() {
     var resultHeader = document.querySelector('.resultsHeader');
@@ -64,9 +64,9 @@ const Inject = {
 
     return DomP;
   },
-  paintingRows() {
+  paintingRows(startIndex) {
     var gettingResultItems = setInterval(function () {
-      var resultItemsList = document.getElementsByClassName("resultItem");
+      let resultItemsList = document.getElementsByClassName("resultItem");
       if (resultItemsList != null && resultItemsList.length !== 0) {
         Inject.cache.resultItemsList = resultItemsList;
         for (let i = 0; i < resultItemsList.length; i++) {
@@ -83,7 +83,7 @@ const Inject = {
           }
 
           let rateStr = (resultItem.querySelector('.rate').innerHTML);
-          let tripStr = (resultItem.querySelector('.trip>a').innerHTML);
+          let tripStr = resultItem.querySelector('.trip>a') !== null ? resultItem.querySelector('.trip>a').innerHTML : "";
           let rate = convertToFloat(rateStr);
           let trip = convertToFloat(tripStr);
           let rpm = rate / trip;
@@ -124,7 +124,7 @@ const Inject = {
         continue;
       }
       let rateStr = resultItem.querySelector('.rate').innerHTML;
-      let tripStr = resultItem.querySelector('.trip>a').innerHTML;
+      let tripStr = resultItem.querySelector('.trip>a') !== null ? resultItem.querySelector('.trip>a').innerHTML : "";
       let originStr = resultItem.querySelector('.origin').innerHTML;
       let destStr = resultItem.querySelector('.dest').innerHTML;
       let rate = convertToFloat(rateStr);
@@ -133,9 +133,6 @@ const Inject = {
       let originState = convertToArray(originStr)[1];
       let destCity = convertToArray(destStr)[0];
       let destState = convertToArray(destStr)[1];
-      console.log(trip < minMile, maxMile !== 0, maxMile < trip, rate < minOffer, checkIfContainEle(blockcitiesArr,
-        [originCity, destCity]), checkIfContainEle(blockstatesArr, [originState, destState]));
-
       let underline = (trip < minMile) ||
         ((maxMile !== 0) && (maxMile < trip)) ||
         (rate < minOffer) ||
@@ -194,7 +191,7 @@ const Inject = {
       if (rateInfoViewDom != null) {
         rateInfoViewDom.querySelector('.calculator-box')?.remove();
         let rateStr = rowItem.querySelector('.rate').innerHTML;
-        let tripStr = rowItem.querySelector('.trip>a').innerHTML;
+        let tripStr = rowItem.querySelector('.trip>a') !== null ? rowItem.querySelector('.trip>a').innerHTML : "";
         let dhoStr = rowItem.querySelector('.do').innerHTML;
         let rate = convertToFloat(rateStr);
         let trip = convertToFloat(tripStr);
@@ -228,4 +225,14 @@ function checkIfContainEle(array1, array2) {
 }
 window.addEventListener("load", function () {
   Inject.init();
+  let scrollDom = document.querySelector("#searchResults").querySelector('.fixed-table-container-inner');
+  scrollDom.addEventListener('scroll', () => {
+    let scrollLockDom = scrollDom.querySelector('.resultItem.qa-scrollLock');
+    let parent = scrollLockDom.parentNode;
+    let index = Array.prototype.indexOf.call(parent.childNodes, scrollLockDom)
+    if (index % 40 === 0) {
+      Inject.paintingRows(index);
+      Inject.handleClickFilterBtn();
+    }
+  })
 });
