@@ -1,4 +1,3 @@
-`
 Here's the functionality of the extension. 
 It should highlight the rows of the table based on what its "Rate" ÷ "Trip" is. Thats the rate per mile (RPM). 
 Any row with rpm of 2.50 or higher is highlighted green, rpm between 1.50 and 2.50 the row is highlighted yellow, and rpm below 1.50 doesn't change color. 
