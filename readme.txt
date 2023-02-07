@@ -1,5 +1,5 @@
 `
-Hey Oleh, ok here's the functionality of the extension. 
+Here's the functionality of the extension. 
 It should highlight the rows of the table based on what its "Rate" ÷ "Trip" is. Thats the rate per mile (RPM). 
 Any row with rpm of 2.50 or higher is highlighted green, rpm between 1.50 and 2.50 the row is highlighted yellow, and rpm below 1.50 doesn't change color. 
 This should run as soon as the page loads. 
@@ -35,8 +35,4 @@ And the email body should have a message.
 If the row the user clicks has an “Origin” city and state of Cleveland, OH and the “Destination” city and state is Miami, FL 
 then they click to email, the email should pop up and say Cleveland, OH to Miami, FL in the subject line. 
 The body should say “Hello, this is _____ from _____________. 
-I’m interested in the load going from Cleveland, OH to Miami, FL.
-
- 
-
-Let me know what you think. Thanks.`
+I’m interested in the load going from Cleveland, OH to Miami, FL".
